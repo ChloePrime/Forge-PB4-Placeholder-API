@@ -31,6 +31,8 @@ dependencies {
     minecraft "net.minecraft:minecraft:$project.minecraft_version"
     mappings "net.fabricmc:yarn:$project.yarn_mappings:v2"
     forge "net.minecraftforge:forge:$project.forge_version"
+
+    compileOnly include('com.machinezoo.noexception:noexception:1.7.1')
 }
 
 processResources {
