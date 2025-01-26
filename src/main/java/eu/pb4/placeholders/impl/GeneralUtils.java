@@ -1,13 +1,15 @@
 package eu.pb4.placeholders.impl;
 
+import com.machinezoo.noexception.Exceptions;
 import eu.pb4.placeholders.api.node.*;
 import eu.pb4.placeholders.api.node.parent.*;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.Version;
-import net.fabricmc.loader.api.VersionParsingException;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLLoader;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
+import org.apache.maven.artifact.versioning.VersionRange;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,21 +18,23 @@ import java.util.ArrayList;
 import java.util.function.Function;
 
 
+@Mod("placeholder_api")
 @ApiStatus.Internal
 public class GeneralUtils {
     public static final Logger LOGGER = LoggerFactory.getLogger("Text Placeholder API");
-    public static final boolean IS_DEV = FabricLoader.getInstance().isDevelopmentEnvironment();
+    public static final boolean IS_DEV = !FMLLoader.isProduction();
     public static final TextNode[] CASTER = new TextNode[0];
 
+    public static final VersionRange LEGACY_TRANSLATION_VERSIONS = Exceptions.sneak().get(() -> VersionRange.createFromVersionSpec("[1.0.0, 1.19.4]"));
     public static final boolean IS_LEGACY_TRANSLATION;
 
     static {
         boolean IS_LEGACY1;
         try {
-            IS_LEGACY1 = FabricLoader.getInstance().getModContainer("minecraft").get().getMetadata().getVersion().compareTo(Version.parse("1.19.4")) < 0;
-        } catch (VersionParsingException e) {
+            IS_LEGACY1 = LEGACY_TRANSLATION_VERSIONS.containsVersion(new DefaultArtifactVersion(FMLLoader.versionInfo().mcVersion()));
+        } catch (RuntimeException e) {
             IS_LEGACY1 = false;
-            e.printStackTrace();
+            LOGGER.error("Error comparing Minecraft version!", e);
         }
         IS_LEGACY_TRANSLATION = IS_LEGACY1;
     }
