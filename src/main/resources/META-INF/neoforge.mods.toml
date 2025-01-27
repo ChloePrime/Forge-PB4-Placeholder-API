@@ -1,0 +1,29 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+issueTrackerURL="https://github.com/ChloePrime/Forge-PB4-Placeholder-API/issues"
+license = "LGPLv3"
+
+[[mods]]
+modId = "placeholder_api"
+version = "${version}"
+displayName = "Placeholder API"
+authors = "Patbox(Original), ChloePrime(Porter)Patbox(Original), ChloePrime(Porter)"
+description = '''
+Simple api for mods allowing for user friendly formatting and universal placeholders!
+'''
+logoFile = "assets/icon.png"
+displayTest="IGNORE_ALL_VERSION"
+
+[[dependencies.placeholder_api]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.placeholder_api]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21,)"
+ordering = "NONE"
+side = "BOTH"
