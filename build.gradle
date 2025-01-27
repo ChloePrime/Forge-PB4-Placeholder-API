@@ -69,8 +69,8 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     //modImplementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${project.fabric_version}"
-    modCompileOnly("org.sinytra.forgified-fabric-api:forgified-fabric-api:${project.fabric_version}")
-    modLocalRuntime("org.sinytra.forgified-fabric-api:forgified-fabric-api:${project.fabric_version}")
+    //modCompileOnly("org.sinytra.forgified-fabric-api:forgified-fabric-api:${project.fabric_version}")
+    //modLocalRuntime("org.sinytra.forgified-fabric-api:forgified-fabric-api:${project.fabric_version}")
 
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.

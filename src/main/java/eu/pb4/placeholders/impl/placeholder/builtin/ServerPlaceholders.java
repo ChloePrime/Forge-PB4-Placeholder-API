@@ -4,7 +4,6 @@ import eu.pb4.placeholders.api.PlaceholderResult;
 import eu.pb4.placeholders.api.Placeholders;
 import eu.pb4.placeholders.api.arguments.StringArgs;
 import eu.pb4.placeholders.impl.GeneralUtils;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.scoreboard.ScoreboardEntry;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.scoreboard.ServerScoreboard;
@@ -12,6 +11,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.neoforged.fml.ModList;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.lang.management.ManagementFactory;
@@ -113,10 +113,10 @@ public class ServerPlaceholders {
 
         Placeholders.register(Identifier.of("server", "mod_version"), (ctx, arg) -> {
             if (arg != null) {
-                var container = FabricLoader.getInstance().getModContainer(arg);
+                var container = ModList.get().getModContainerById(arg);
 
                 if (container.isPresent()) {
-                    return PlaceholderResult.value(Text.literal(container.get().getMetadata().getVersion().getFriendlyString()));
+                    return PlaceholderResult.value(Text.literal(container.get().getModInfo().getVersion().toString()));
                 }
             }
             return PlaceholderResult.invalid("Invalid argument");
@@ -124,10 +124,10 @@ public class ServerPlaceholders {
 
         Placeholders.register(Identifier.of("server", "mod_name"), (ctx, arg) -> {
             if (arg != null) {
-                var container = FabricLoader.getInstance().getModContainer(arg);
+                var container = ModList.get().getModContainerById(arg);
 
                 if (container.isPresent()) {
-                    return PlaceholderResult.value(Text.literal(container.get().getMetadata().getName()));
+                    return PlaceholderResult.value(Text.literal(container.get().getModInfo().getDisplayName()));
                 }
             }
             return PlaceholderResult.invalid("Invalid argument");
@@ -138,15 +138,15 @@ public class ServerPlaceholders {
         });
 
         Placeholders.register(Identifier.of("server", "mod_count"), (ctx, arg) -> {
-            return PlaceholderResult.value(Text.literal("" + FabricLoader.getInstance().getAllMods().size()));
+            return PlaceholderResult.value(Text.literal("" + ModList.get().size()));
         });
 
         Placeholders.register(Identifier.of("server", "mod_description"), (ctx, arg) -> {
             if (arg != null) {
-                var container = FabricLoader.getInstance().getModContainer(arg);
+                var container = ModList.get().getModContainerById(arg);
 
                 if (container.isPresent()) {
-                    return PlaceholderResult.value(Text.literal(container.get().getMetadata().getDescription()));
+                    return PlaceholderResult.value(Text.literal(container.get().getModInfo().getDescription()));
                 }
             }
             return PlaceholderResult.invalid("Invalid argument");
